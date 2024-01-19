@@ -1,0 +1,84 @@
+<div class="container" *ngIf="!isAddContact">
+
+
+  <button (click)="createcontact()" class="btn btn-success">Add Contact</button>
+  <br />
+  <br />
+  <div class="table-outer" *ngIf="!contacts">
+    <h2 class="text-center">  No Record(s) Found. </h2>
+  </div>
+
+  <div class="table-outer" *ngIf="contacts">
+    <p-table #dt1 [value]="contacts" dataKey="id"
+             styleClass="p-datatable-customers p-datatable-gridlines"
+             [totalRecords]="totalRecords" [paginator]="true"
+             [scrollable]="true" scrollHeight="100%" sortMode="multiple"
+             [paginator]="contacts.length > 0" [rows]="5" [columns]="columns"
+             [globalFilterFields]="['strFirstName','strLastName','strEmail']">
+      <ng-template pTemplate="caption">
+        <div class="p-d-flex" style="text-align: right">
+          <span class="p-input-icon-left p-ml-auto">
+            <input pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
+                   placeholder="Search keyword" />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <ng-container *ngFor="let col of columns">
+            <th *ngIf="col.field" class="table__th">
+              <span [pSortableColumn]="col.field" class="table-column-header"
+                    *ngIf="col.field =='iContactId'">
+                Id
+              </span>
+              <span [pSortableColumn]="col.field" class="table-column-header "
+                    *ngIf="col.field =='strFirstName'">
+                First Name
+              </span>
+              <span [pSortableColumn]="col.field" class="table-column-header "
+                    *ngIf="col.field =='strLastName'">
+                Last Name
+              </span>
+              <span [pSortableColumn]="col.field" class="table-column-header "
+                    *ngIf="col.field =='strEmail'">
+                Email
+              </span>
+            </th>
+          </ng-container>
+          <th>Update</th>
+          <th>Delete</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body"
+                   let-rowData
+                   let-columns="columns">
+        <tr style=" border-bottom: grey 1px solid;;">
+          <td *ngFor="let column of columns">
+            {{rowData[column.field]}}
+          </td>
+          <td>
+            <button class="btn btn-primary" (click)="updatecontact(rowData)" ng-mouseover="changeColor(iContactId)"> Update  </button>
+          </td>
+          <td>
+            <button class="btn btn-danger" style="margin-left: 10px" (click)="openDialog(rowData['iContactId'])"> Delete</button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div *ngIf="isAddContact">
+  <add-edit-contact [inpcontact]="editVal" (cancelAddPage)="CancelEvent($event)" (status)='saveStatus($event)'></add-edit-contact>
+</div>
+
+
+<p-dialog [(visible)]="visible" [draggable]="true" padding="0px" width="1200" height="350" [responsive]="true">
+  <p>
+    You want to delete this contact??
+  </p>
+  <p-footer>
+    <button (click)="deletecontact()">Delete</button>
+    <button (click)="cancelCon()" style="margin-left: 10px;">Cancel</button>
+  </p-footer>
+</p-dialog>

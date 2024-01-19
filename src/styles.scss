@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import 'ngx-toastr/toastr';
+.footer {
+    position: absolute;
+    bottom: 0;
+    width:100%;
+    height: 70px;
+    background-color: blue;
+    text-align: center;
+    color: white;
+}
+.p-datatable .p-datatable-header {
+    background: #2664a1;
+    color: #495057;
+    border: 1px solid #e9ecef;
+    border-width: 1px 0 1px 0;
+    padding: 1rem 1rem;
+    font-weight: 600;
+  }
+  
+ th  {
+background-color: black;
+color :white;
+ }
+ tr{
+    background-color: #c1c5c9;
+ }
